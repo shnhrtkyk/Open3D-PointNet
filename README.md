@@ -1,26 +1,45 @@
-# PointNet.pytorch
-This repo is implementation for PointNet(https://arxiv.org/abs/1612.00593) in pytorch. The model is in `pointnet.py`.
+# Open3D-PointNet
 
+[PointNet][pointnet] implementation and visualization with [Open3D][open3d],
+an open-source library that supports rapid development of software that deals
+with 3D data. As part of the Open3D ecosystem, this repository demonstrates how
+Open3D can be used for ML/DL research projects.
 
-# Download data and running
+This repository is forked from
+[`fxia22`'s PyTorch implementation](https://github.com/fxia22/pointnet.pytorch).
 
+![seg](misc/o3d_visualize.png)
+
+# Changelog
+
+1. Added CPU support for non-cuda-enabled devices.
+2. Used Open3D point cloud loader for loading PointNet datasets (`datasets.py`).
+3. Added example for PointNet inference with Open3D Jupyter visualization
+   (`open3d_pointnet_inference.ipynb`).
+4. Added example for native OpenGL visualization with Open3D (`open3d_visualize.py`).
+
+# Setup
+
+```bash
+# Install Open3D, must be v0.4.0 or above for Jupyter support
+pip install open3d-python
+
+# Install PyTorch
+# Follow: https://pytorch.org/
+
+# Install other dependencies
+pip install -r requirements.txt
 ```
-bash build.sh #build C++ code for visualization
-bash download.sh #download dataset
-python train_classification.py #train 3D model classification
-python python train_segmentation.py # train 3D model segmentaion
 
-python show_seg.py --model seg/seg_model_20.pth  # show segmentation results
+Now, launch
+
+```bash
+jupyter notebook
 ```
 
-# Performance
-Without heavy tuning, PointNet can achieve 80-90% performance in classification and segmentaion on this [dataset](http://web.stanford.edu/~ericyi/project_page/part_annotation/index.html). 
+and run `open3d_pointnet_inference.ipynb`. All datasets and pre-trained models
+shall be downloaded automatically. If you run into issues downloading files,
+please run `download.py` separately.
 
-Sample segmentation result:
-![seg](https://raw.githubusercontent.com/fxia22/pointnet.pytorch/master/misc/show3d.png?token=AE638Oy51TL2HDCaeCF273X_-Bsy6-E2ks5Y_BUzwA%3D%3D)
-
-
-# Links
-
-- [Project Page](http://stanford.edu/~rqi/pointnet/)
-- [Tensorflow implementation](https://github.com/charlesq34/pointnet)
+[open3d]: https://github.com/IntelVCL/Open3D
+[pointnet]: https://arxiv.org/abs/1612.00593
