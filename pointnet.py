@@ -5,7 +5,6 @@ import random
 import torch
 import torch.nn as nn
 import torch.nn.parallel
-import torch.backends.cudnn as cudnn
 import torch.optim as optim
 import torch.utils.data
 import torchvision.transforms as transforms
@@ -16,6 +15,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pdb
 import torch.nn.functional as F
+if torch.cuda.is_available():
+    import torch.backends.cudnn as cudnn
 
 
 class STN3d(nn.Module):

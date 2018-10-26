@@ -6,7 +6,6 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.parallel
-import torch.backends.cudnn as cudnn
 import torch.optim as optim
 import torch.utils.data
 import torchvision.datasets as dset
@@ -16,6 +15,8 @@ from torch.autograd import Variable
 from datasets import PartDataset
 from pointnet import PointNetCls
 import torch.nn.functional as F
+if torch.cuda.is_available():
+    import torch.backends.cudnn as cudnn
 
 
 
@@ -63,7 +64,8 @@ if opt.model != '':
 
 
 optimizer = optim.SGD(classifier.parameters(), lr=0.01, momentum=0.9)
-classifier.cuda()
+if torch.cuda.is_available():
+    classifier.cuda()
 
 num_batch = len(dataset)/opt.batchSize
 
@@ -72,7 +74,8 @@ for epoch in range(opt.nepoch):
         points, target = data
         points, target = Variable(points), Variable(target[:,0])
         points = points.transpose(2,1)
-        points, target = points.cuda(), target.cuda()
+        if torch.cuda.is_available():
+            points, target = points.cuda(), target.cuda()
         optimizer.zero_grad()
         classifier = classifier.train()
         pred, _ = classifier(points)
@@ -88,7 +91,8 @@ for epoch in range(opt.nepoch):
             points, target = data
             points, target = Variable(points), Variable(target[:,0])
             points = points.transpose(2,1)
-            points, target = points.cuda(), target.cuda()
+            if torch.cuda.is_available():
+                points, target = points.cuda(), target.cuda()
             classifier = classifier.eval()
             pred, _ = classifier(points)
             loss = F.nll_loss(pred, target)
