@@ -13,6 +13,7 @@ import sys
 import torchvision.transforms as transforms
 import argparse
 import json
+import open3d
 
 
 class PartDataset(data.Dataset):
@@ -70,7 +71,9 @@ class PartDataset(data.Dataset):
     def __getitem__(self, index):
         fn = self.datapath[index]
         cls = self.classes[self.datapath[index][0]]
-        point_set = np.loadtxt(fn[1]).astype(np.float32)
+        point_set = np.asarray(
+            open3d.read_point_cloud(fn[1], format='xyz').points,
+            dtype=np.float32)
         seg = np.loadtxt(fn[2]).astype(np.int64)
         #print(point_set.shape, seg.shape)
 
